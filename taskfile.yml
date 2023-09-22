@@ -67,7 +67,7 @@ tasks:
         echo "Minifying JS"
         npx rollup -c
         for entry in $JS_ENTRIES; do
-          npx rollup $ROLLUP_FLAGS $JS_SRC_FOLDER/$entry.js --file $JS_OUT_FOLDER/$entry.min.js --plugin terser
+          npx rollup $ROLLUP_FLAGS $JS_SRC_FOLDER/$entry.temp.js --file $JS_OUT_FOLDER/$entry.min.js --plugin terser
         done
 
   cleanup-temp-js:
