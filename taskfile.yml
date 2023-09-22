@@ -72,7 +72,7 @@ tasks:
 
   cleanup-temp-js:
     cmds:
-      - del $JS_SRC_FOLDER/*.temp.js $JS_SRC_FOLDER/temp.js
+      - del-cli $JS_SRC_FOLDER/*.temp.js $JS_SRC_FOLDER/temp.js
 
   js:
     cmds:
