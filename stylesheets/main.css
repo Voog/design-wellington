@@ -307,3 +307,11 @@
 .menu-main a.untranslated {
   color: #C5292A;
 }
+
+.content-formatted .edy-image-container-with-title:after {
+  display: block;
+  padding: 4px;
+  font-size: 12px;
+  line-height: 1.3em;
+  content: attr(data-title);
+}
