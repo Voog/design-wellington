@@ -1,4 +1,10 @@
 .content-formatted {
+  .custom-btn {
+    display: inline-block;
+    padding: 16px;
+    border: 1px solid $black;
+  }
+
   // Content area image title
   .edy-image-container-with-title:after {
     display: block;
