@@ -14,13 +14,15 @@ env:
   ROLLUP_FLAGS: --format=umd -p @rollup/plugin-node-resolve
 
   ## ASSETS
-  ASSETS_MINIFY_SRC_FOLDER: sources/assets/minify
-  ASSETS_COPY_SRC_FOLDER: sources/assets/copy
+  ASSETS_SRC_FOLDER: sources/assets
+  ASSETS_MINIFY_FOLDER: minify
+  ASSETS_COPY_FOLDER: copy
   ASSETS_OUT_FOLDER: assets
 
   ## IMAGES
-  IMAGES_MINIFY_SRC_FOLDER: sources/images/minify
-  IMAGES_COPY_SRC_FOLDER: sources/images/copy
+  IMAGES_SRC_FOLDER: sources/images
+  IMAGES_MINIFY_FOLDER: minify
+  IMAGES_COPY_FOLDER: copy
   IMAGES_OUT_FOLDER: images
 
 tasks:
@@ -44,13 +46,11 @@ tasks:
     cmds:
       - task: build-css
       - task: minify-css
+      - echo "CSS build done"
 
   watch-css:
     cmds:
-      - |
-        for entry in $CSS_ENTRIES; do
-          npx chokidar $CSS_SRC_FOLDER/* -c "npx task css"
-        done
+      - npx chokidar $CSS_SRC_FOLDER/* -c "npx task css"
 
   build-js:
     cmds:
@@ -82,43 +82,48 @@ tasks:
 
   watch-js:
     cmds:
-      - |
-        for entry in $JS_ENTRIES; do
-          npx chokidar $JS_SRC_FOLDER/* -c "npx task js"
-        done
+      - npx chokidar $JS_SRC_FOLDER/* -c "npx task js"
 
   process-assets:
     cmds:
       - |
         echo "Processing assets"
-        npx imagemin $ASSETS_MINIFY_SRC_FOLDER/* --out-dir $ASSETS_OUT_FOLDER
+        npx imagemin $ASSETS_SRC_FOLDER/$ASSETS_MINIFY_FOLDER/* --out-dir $ASSETS_OUT_FOLDER
         echo "Copying assets"
-        cpy $ASSETS_COPY_SRC_FOLDER/* $ASSETS_OUT_FOLDER --flat
+        cpy $ASSETS_SRC_FOLDER/$ASSETS_COPY_FOLDER/* $ASSETS_OUT_FOLDER --flat
 
   process-images:
     cmds:
       - |
         echo "Processing images"
-        npx imagemin $IMAGES_MINIFY_SRC_FOLDER/* --out-dir $IMAGES_OUT_FOLDER
+        npx imagemin $IMAGES_SRC_FOLDER/$IMAGES_MINIFY_FOLDER/* --out-dir $IMAGES_OUT_FOLDER
         echo "Copying images"
-        cpy $IMAGES_COPY_SRC_FOLDER/* $IMAGES_OUT_FOLDER --flat
+        cpy $IMAGES_SRC_FOLDER/$IMAGES_COPY_FOLDER/* $IMAGES_OUT_FOLDER --flat
+
+  watch-assets:
+    cmds:
+      - npx chokidar $ASSETS_SRC_FOLDER/* -c "npx task process-assets"
+
+  watch-images:
+    cmds:
+      - npx chokidar $IMAGES_SRC_FOLDER/* -c "npx task process-images"
 
   dev:
     cmds:
       - echo "Running dev workflow"
-      - task: watch-css
-      - task: watch-js
-      - task: process-assets
-      - task: process-images
+      - npx task watch-css &
+        npx task watch-js &
+        npx task watch-assets &
+        npx task watch-images
 
   dev-kit:
     cmds:
       - echo "Running dev kit workflow"
-      - task: watch-css
-      - task: watch-js
-      - task: process-assets
-      - task: process-images
-      - cmd: kit watch
+      - npx task watch-css &
+        npx task watch-js &
+        npx task watch-assets &
+        npx task watch-images &
+        kit watch
 
   prod:
     cmds:
