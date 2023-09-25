@@ -1,9 +1,9 @@
 {
-  "description": "New design",
-  "name": "New design",
+  "description": "Minimal template for developers",
+  "name": "Wellington",
   "preview_medium": "",
   "preview_small": "",
-  "author": "",
+  "author": "Peeter Paal",
   "layouts": [
     {
       "content_type": "component",
