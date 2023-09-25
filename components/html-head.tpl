@@ -21,11 +21,13 @@
   type="text/css"
 />
 
-{% if editmode %}
-  <link rel="stylesheet" href="{{ site.static_asset_host }}/libs/edicy-tools/latest/edicy-tools.css">
-{% endif %}
+{% if editmode -%}
+  {% stylesheet_link "libs/edicy-tools/latest/edicy-tools.css" static_host="true" %}
+{%- endif %}
 
-<link rel="stylesheet" href="{{ site.static_asset_host }}/libs/edicy-search/latest/edicy-search.css">
+{% if site.search.enabled -%}
+  {% stylesheet_link "libs/edicy-search/latest/edicy-search.css" static_host="true" %}
+{%- endif %}
 
 {%- comment -%}SITE TITLE{%- endcomment -%}
 <title>{% title %}</title>

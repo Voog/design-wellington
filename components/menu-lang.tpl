@@ -1,13 +1,13 @@
 <div class="menu-lang">
-  {% for language in site.languages %}
+  {% for language in site.languages -%}
     <span>
       <a class="lang-flag lang-flag-{{ language.code }}{% if language.selected? %} active{% endif %}" href="{{ language.url }}" data-lang-code="{{ language.locale }}">{{ language.title }}</a>
     </span>
-  {% endfor %}
+  {%- endfor %}
 
-  {% if editmode %}
+  {% if editmode -%}
     <span class="edit-btn">
       {% languageadd %}
     </span>
-  {% endif %}
+  {%- endif %}
 </div>

@@ -1,6 +1,8 @@
 {%- comment -%}TEMPLATE META DATA{%- endcomment -%}
 {%- comment -%}https://developers.facebook.com/tools/debug - Debug after each modification{%- endcomment -%}
-{%- if site.data.fb_admin -%}<meta property="fb:admins" content="{{ site.data.fb_admin }}">{%- endif -%}
+{%- if site.data.fb_admin -%}
+  <meta property="fb:admins" content="{{ site.data.fb_admin }}">
+{%- endif -%}
 
 {%- if article -%}
   {%- assign og_obj = article -%}
@@ -11,9 +13,9 @@
 {%- endif -%}
 
 <meta property="og:type" content="{%- if article -%}article{%- else -%}website{%- endif -%}">
-<meta property="og:url" content="{{ site.url }}{{ og_obj.url | remove_first:"/" }}">
+<meta property="og:url" content="{{ site.url }}{{ og_obj.url | remove_first: "/" }}">
 <meta property="og:title" content="{%- title -%}">
-<meta property="og:site_name" content="{{ page.site_title | escape }}">
+<meta property="og:site_name" content="{{ page.site_title | escape_once }}">
 
 {%- comment -%}Open Graph image{%- endcomment -%}
 {%- if og_obj.og_image? -%}
