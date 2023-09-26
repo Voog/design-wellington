@@ -5,6 +5,22 @@
     border: 1px solid $black;
   }
 
+  .edy-texteditor-container {
+    margin: 8px;
+  }
+
+  .edy-texteditor-container-wrapper {
+    margin-bottom: 1em;
+  }
+
+  .edy-texteditor-container-wrapper-left, .edy-texteditor-container-left {
+    margin-right: 1em;
+  }
+
+  .edy-texteditor-container-wrapper-right, .edy-texteditor-container-right {
+    margin-left: 1em;
+  }
+
   // Content area image title
   .edy-image-container-with-title:after {
     display: block;

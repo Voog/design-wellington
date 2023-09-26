@@ -307,6 +307,18 @@
   padding: 16px;
   border: 1px solid #000000;
 }
+.content-formatted .edy-texteditor-container {
+  margin: 8px;
+}
+.content-formatted .edy-texteditor-container-wrapper {
+  margin-bottom: 1em;
+}
+.content-formatted .edy-texteditor-container-wrapper-left, .content-formatted .edy-texteditor-container-left {
+  margin-right: 1em;
+}
+.content-formatted .edy-texteditor-container-wrapper-right, .content-formatted .edy-texteditor-container-right {
+  margin-left: 1em;
+}
 .content-formatted .edy-image-container-with-title:after {
   display: block;
   padding: 4px;
