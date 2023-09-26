@@ -326,3 +326,79 @@
   line-height: 1.3em;
   content: attr(data-title);
 }
+.content-formatted form {
+  max-width: 100%;
+  margin-top: 24px;
+  clear: both;
+}
+.content-formatted .form_field,
+.content-formatted .edy-fe-label {
+  font-size: 14px;
+}
+.content-formatted .form_field {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.content-formatted .form_field:first-child {
+  padding-top: 0;
+}
+.content-formatted .form_field:last-child {
+  padding-bottom: 0;
+}
+.content-formatted .form_field_required .form_field_label:after {
+  content: "*";
+}
+.content-formatted label {
+  display: block;
+}
+.content-formatted .form_field_label,
+.content-formatted .edy-fe-label {
+  font-weight: 700;
+  font-family: inherit;
+}
+.content-formatted .form_field_textfield,
+.content-formatted .form_field_textarea,
+.content-formatted .form_field_select,
+.content-formatted .form_field_file,
+.content-formatted .form_submit input {
+  font-family: inherit;
+  font-size: 14px;
+}
+.content-formatted .form_field_textfield,
+.content-formatted .form_field_textarea,
+.content-formatted .form_field_select,
+.content-formatted .form_field_file {
+  max-width: 100%;
+}
+.content-formatted .form_field_textfield,
+.content-formatted .form_field_textarea {
+  width: 280px;
+  margin: 0;
+  padding: 8px;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.content-formatted .form_field_textarea {
+  min-height: 96px;
+}
+.content-formatted .form_field_size_medium {
+  width: 416px;
+}
+.content-formatted .form_field_size_large {
+  width: 576px;
+}
+.content-formatted .form_submit {
+  margin-top: 8px;
+}
+.content-formatted .form_error,
+.content-formatted .form_field_error {
+  color: #C5292A;
+}
+.content-formatted .form_field_with_errors .form_field_textfield,
+.content-formatted .form_field_with_errors .form_field_textarea {
+  border: 1px solid #C5292A;
+}
+.content-formatted .form_notice {
+  color: #2F5D4B;
+}
