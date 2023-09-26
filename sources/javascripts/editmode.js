@@ -1,4 +1,4 @@
-; (function ($) {
+(function ($) {
   // Returns the suitable version of the image depending on the viewport width.
   var getImageByWidth = function (sizes, targetWidth) {
     var prevImage;
@@ -145,160 +145,6 @@
     }
   };
 
-  // ===========================================================================
-  // Binds image drop areas.
-  // ===========================================================================
-  var bindContentItemImgDropAreas = function (placeholderText, itemImageKey, cropStateKey) {
-    $('.js-content-item-img-drop-area').each(function (index, imgDropAreaTarget) {
-      var $imgDropAreaTarget = $(imgDropAreaTarget),
-        $contentItemBox = $imgDropAreaTarget.closest('.js-content-item-box'),
-        $removeBtn = $contentItemBox.find('.image_settings-remove'),
-        itemId = $contentItemBox.data('item-id'),
-        itemType = $contentItemBox.data('item-type'),
-        itemImageType = $contentItemBox.data('image-type'),
-        itemData = new Edicy.CustomData({
-          type: itemType,
-          id: itemId
-        });
-
-      var imgDropArea = new Edicy.ImgDropArea($imgDropAreaTarget, {
-        positionable: false,
-        target_width: 2048,
-        placeholder: '<div class="edy-img-drop-area-placeholder">' + placeholderText + '</div>',
-        removeBtn: null,
-        change: function (image) {
-          var $cropToggleButton = $contentItemBox.find('.js-toggle-crop-state');
-          $imgDropAreaTarget
-            .removeClass('is-cropped')
-            .addClass('not-cropped')
-            .css('opacity', .1)
-            ;
-
-          if (image) {
-            removeImagePlaceholder($contentItemBox, $cropToggleButton);
-            $('.js-remove-image').css('display', 'flex');
-          } else {
-            $contentItemBox.find('.image_settings').hide();
-
-            $contentItemBox
-              .removeClass('with-image is-loaded with-error')
-              .addClass('without-image not-loaded')
-              ;
-
-            $cropToggleButton
-              .addClass('is-hidden')
-              .removeClass('is-visible')
-              ;
-            $contentItemBox.find('.edy-img-drop-area-placeholder').css('opacity', 0);
-          }
-
-
-          var itemType = $contentItemBox.data('item-type');
-          var itemId = $contentItemBox.data('item-id');
-
-          var itemData = new Edicy.CustomData({
-            type: itemType,
-            id: itemId
-          });
-
-          itemData.set({ [cropStateKey]: 'not-cropped', [itemImageKey]: image });
-          $contentItemBox.removeClass('not-loaded with-error').addClass('is-loaded');
-          $contentItemBox.find('.edy-img-drop-area-placeholder').css('opacity', 1);
-          $imgDropAreaTarget.css('opacity', 1);
-        }
-      });
-
-      $removeBtn.on('click', function () {
-        var $el = $(this),
-        itemId = $contentItemBox.data('item-id'),
-        itemType = $contentItemBox.data('item-type'),
-        itemData = new Edicy.CustomData({
-          type: itemType,
-          id: itemId
-        });
-
-        itemData.get({
-          success: function (data) {
-            if (data.item_image) {
-              itemData.remove(itemImageKey, {
-                success: function (data) {
-                  itemData.remove(cropStateKey, {
-                    success: function (data) {
-                      if (itemType !== 'article') {
-                        handleProductImage(placeholderText, itemId, null, $el);
-                      } else {
-                        addProductImagePlaceholder($el, placeholderText);
-                      }
-                    }
-                  });
-                }
-              });
-            } else {
-              $.ajax({
-                type: 'PUT',
-                contentType: 'application/json',
-                url: '/admin/api/pages/' + itemId,
-                dataType: 'json',
-                data: JSON.stringify({ "image_id": null })
-              }).then(function (product) {
-                addProductImagePlaceholder($el, placeholderText);
-              });
-            }
-          }
-        });
-
-      });
-    });
-  };
-
-  var removeImagePlaceholder = function ($contentItemBox, $cropToggleButton) {
-    $contentItemBox.find('.image_settings').show();
-
-    $contentItemBox
-      .removeClass('without-image is-loaded with-error')
-      .addClass('with-image not-loaded');
-
-    $cropToggleButton
-      .removeClass('is-hidden')
-      .addClass('is-visible');
-  }
-
-  // ===========================================================================
-  // Sets functions that will be initiated globally when resizing the browser
-  // window.
-  // ===========================================================================
-  var bindContentItemImageCropToggle = function (dataKey) {
-    $('.js-toggle-crop-state').on('click', function () {
-      var $contentItemBox = $(this).closest('.js-content-item-box'),
-        $imgDropAreaTarget = $contentItemBox.find('.js-content-item-img-drop-area'),
-        itemId = $contentItemBox.data('item-id'),
-        itemType = $contentItemBox.data('item-type'),
-        itemData = new Edicy.CustomData({
-          type: itemType,
-          id: itemId
-        }),
-        imageCropState;
-
-      if ($imgDropAreaTarget.hasClass('is-cropped')) {
-        $imgDropAreaTarget
-          .removeClass('is-cropped')
-          .addClass('not-cropped')
-          ;
-
-        imageCropState = 'not-cropped';
-      } else {
-        $imgDropAreaTarget
-          .removeClass('not-cropped')
-          .addClass('is-cropped')
-          ;
-
-        imageCropState = 'is-cropped';
-      }
-
-      itemData.set(dataKey, imageCropState);
-    });
-  };
-
   //==========================================================================
   // Sets site custom data saving fanction variable.
   //==========================================================================
@@ -372,8 +218,6 @@
     bgPickerPreview: bgPickerPreview,
     bgPickerCommit: bgPickerCommit,
     bgPickerColorScheme: bgPickerColorScheme,
-    bindContentItemImgDropAreas: bindContentItemImgDropAreas,
-    bindContentItemImageCropToggle: bindContentItemImageCropToggle,
   });
 
   // Initiates site wide functions.
