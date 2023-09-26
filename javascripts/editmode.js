@@ -19,7 +19,7 @@
     };
 
     var bgPickerImageSizesContains = function (sizes, url) {
-      for (var i = sizes.length; i--;) {
+      for (var i = sizes.length; i--; ) {
         if (url.indexOf(sizes[i].url.trim()) > -1) {
           return true;
         }
@@ -30,9 +30,15 @@
     // Checks the lightness sum of header background image and color and sets the lightness class depending on it's value.
     var bgPickerContentLightnessClass = function (bgPickerArea, combinedLightness) {
       if (combinedLightness >= 0.5) {
-        $(bgPickerArea).find('> .js-background-type').addClass('light-background').removeClass('dark-background');
+        $(bgPickerArea)
+          .find('> .js-background-type')
+          .addClass('light-background')
+          .removeClass('dark-background');
       } else {
-        $(bgPickerArea).find('> .js-background-type').addClass('dark-background').removeClass('light-background');
+        $(bgPickerArea)
+          .find('> .js-background-type')
+          .addClass('dark-background')
+          .removeClass('light-background');
       }
     };
 
@@ -41,39 +47,45 @@
       // Defines the variables used in preview logic.
 
       var bgPickerImagePrevious = $(bgPickerArea).css('background-image'),
-        bgPickerImageSuitable = data.imageSizes ? getImageByWidth(data.imageSizes, $(window).width()) : null,
-        bgPickerImage = (data.image && data.image !== '') ? 'url(' + bgPickerImageSuitable.url + ')' : 'none',
-        bgPickerImageSizes = (data.imageSizes && data.imageSizes !== '') ? data.imageSizes : null,
-        bgPickerColor = (data.color && data.color !== '') ? data.color : 'rgba(0,0,0,0)';
-        (data.colorData && data.colorData !== '') ? data.colorData.lightness : 1;
+        bgPickerImageSuitable = data.imageSizes
+          ? getImageByWidth(data.imageSizes, $(window).width())
+          : null,
+        bgPickerImage =
+          data.image && data.image !== '' ? 'url(' + bgPickerImageSuitable.url + ')' : 'none',
+        bgPickerImageSizes = data.imageSizes && data.imageSizes !== '' ? data.imageSizes : null,
+        bgPickerColor = data.color && data.color !== '' ? data.color : 'rgba(0,0,0,0)';
+        data.colorData && data.colorData !== '' ? data.colorData.lightness : 1;
         var colorExtractImage = $('<img>'),
         colorExtractCanvas = $('<canvas>'),
-        colorExtractImageUrl = (data.image && data.image !== '') ? data.image : null;
+        colorExtractImageUrl = data.image && data.image !== '' ? data.image : null;
 
       if (colorExtractImageUrl) {
         if (bgPickerImageSizesContains(bgPickerImageSizes, bgPickerImagePrevious)) {
           bgPicker.imageColor = bgPicker.imageColor ? bgPicker.imageColor : defaultImageColor;
           bgPicker.combinedLightness = getCombinedLightness(bgPicker.imageColor, bgPickerColor);
           bgPickerContentLightnessClass(bgPickerArea, bgPicker.combinedLightness);
-
         } else {
-          colorExtractImage.attr('src', colorExtractImageUrl.replace(/.*\/(photos|voogstock)/g, '/photos'));
+          colorExtractImage.attr(
+            'src',
+            colorExtractImageUrl.replace(/.*\/(photos|voogstock)/g, '/photos')
+          );
           colorExtractImage.on('load', function () {
             ColorExtract.extract(colorExtractImage[0], colorExtractCanvas[0], function (data) {
               bgPicker.imageColor = data.bgColor ? data.bgColor : 'rgba(255,255,255,1)';
               bgPicker.combinedLightness = getCombinedLightness(bgPicker.imageColor, bgPickerColor);
               bgPickerContentLightnessClass(bgPickerArea, bgPicker.combinedLightness);
-
             });
           });
-        }    } else {
+        }
+      } else {
         bgPicker.imageColor = 'rgba(255,255,255,1)';
         bgPicker.combinedLightness = getCombinedLightness(bgPicker.imageColor, bgPickerColor);
         bgPickerContentLightnessClass(bgPickerArea, bgPicker.combinedLightness);
       }
+
       // Updates the bgPickerContent background image and background color.
-      $(bgPickerArea).find('.js-background-image').first().css({ 'background-image': bgPickerImage });
-      $(bgPickerArea).find('.js-background-color').first().css({ 'background-color': bgPickerColor });
+      $(bgPickerArea).find('.js-background-image').first().css({'background-image': bgPickerImage});
+      $(bgPickerArea).find('.js-background-color').first().css({'background-color': bgPickerColor});
     };
 
     var normalizeValue = function (value) {
@@ -98,31 +110,62 @@
         siteData.set(dataBgKey, commitData);
       } else {
         pageData.set(dataBgKey, commitData);
-      }  };
+      }
+    };
 
     var colorSum = function (bgColor, fgColor) {
       if (bgColor && fgColor) {
         if (typeof bgColor == 'string') {
-          bgColor = bgColor.replace(/rgba?\(/, '').replace(/\)/, '').split(',');
-          $.each(bgColor, function (n, x) { bgColor[n] = +x; });
+          bgColor = bgColor
+            .replace(/rgba?\(/, '')
+            .replace(/\)/, '')
+            .split(',');
+          $.each(bgColor, function (n, x) {
+            bgColor[n] = +x;
+          });
         }
         if (typeof fgColor == 'string') {
-          fgColor = fgColor.replace(/rgba?\(/, '').replace(/\)/, '').split(',');
-          $.each(fgColor, function (n, x) { fgColor[n] = +x; });
+          fgColor = fgColor
+            .replace(/rgba?\(/, '')
+            .replace(/\)/, '')
+            .split(',');
+          $.each(fgColor, function (n, x) {
+            fgColor[n] = +x;
+          });
         }
         if (typeof bgColor == 'object' && bgColor.hasOwnProperty('length')) {
-          if (bgColor.length == 3) { bgColor.push(1.0); }
+          if (bgColor.length == 3) {
+            bgColor.push(1.0);
+          }
         }
         if (typeof fgColor == 'object' && fgColor.hasOwnProperty('length')) {
-          if (fgColor.length == 3) { fgColor.push(1.0); }
+          if (fgColor.length == 3) {
+            fgColor.push(1.0);
+          }
         }
         var result = [0, 0, 0, 0];
         result[3] = 1 - (1 - fgColor[3]) * (1 - bgColor[3]);
-        if (result[3] === 0) { result[3] = 1e-6; }
-        result[0] = Math.min(fgColor[0] * fgColor[3] / result[3] + bgColor[0] * bgColor[3] * (1 - fgColor[3]) / result[3], 255);
-        result[1] = Math.min(fgColor[1] * fgColor[3] / result[3] + bgColor[1] * bgColor[3] * (1 - fgColor[3]) / result[3], 255);
-        result[2] = Math.min(fgColor[2] * fgColor[3] / result[3] + bgColor[2] * bgColor[3] * (1 - fgColor[3]) / result[3], 255);
-        return $.map(result, function (e) { return Math.floor(e); });
+        if (result[3] === 0) {
+          result[3] = 1e-6;
+        }
+        result[0] = Math.min(
+          (fgColor[0] * fgColor[3]) / result[3] +
+            (bgColor[0] * bgColor[3] * (1 - fgColor[3])) / result[3],
+          255
+        );
+        result[1] = Math.min(
+          (fgColor[1] * fgColor[3]) / result[3] +
+            (bgColor[1] * bgColor[3] * (1 - fgColor[3])) / result[3],
+          255
+        );
+        result[2] = Math.min(
+          (fgColor[2] * fgColor[3]) / result[3] +
+            (bgColor[2] * bgColor[3] * (1 - fgColor[3])) / result[3],
+          255
+        );
+        return $.map(result, function (e) {
+          return Math.floor(e);
+        });
       }
     };
 
@@ -133,7 +176,11 @@
 
     var getCombinedLightness = function (bgColor, fgColor) {
       var combinedColor = getCombinedColor(bgColor, fgColor);
-      var color = Math.round(((+combinedColor[0]) * 0.2126 + (+combinedColor[1]) * 0.7152 + (+combinedColor[2]) * 0.0722) / 2.55) / 100;
+      var color =
+        Math.round(
+          (+combinedColor[0] * 0.2126 + +combinedColor[1] * 0.7152 + +combinedColor[2] * 0.0722) /
+            2.55
+        ) / 100;
       return color;
     };
 
@@ -165,28 +212,38 @@
 
           if (dataEntity == 'site') {
             var entityData = new Edicy.CustomData({
-              type: 'site'
-            });        } else {
+              type: 'site',
+            });
+          } else {
             var entityData = new Edicy.CustomData({
               type: dataEntity,
-              id: dataId
+              id: dataId,
             });
           }
 
-          entityData.set({ [dataKey]: val }, {
-            success: function () {
-              if (dataReload) { location.reload(); }          }
-          });
+          entityData.set(
+            {[dataKey]: val},
+            {
+              success: function () {
+                if (dataReload) {
+                  location.reload();
+                }
+              },
+            }
+          );
         });
       });
     };
 
     var bindCustomTexteditorStyles = function () {
       window.edy = window.edy || [];
-      edy.push(['texteditorStyles', { name: 'Button', tagname: 'a', attribute: { 'href': '#' }, classname: 'custom-btn', toggle: true }]);
+      edy.push([
+        'texteditorStyles',
+        {name: 'Button', tagname: 'a', attribute: {href: '#'}, classname: 'custom-btn', toggle: true},
+      ]);
     };
 
-    var handleDocument = function() {
+    var handleDocument = function () {
       if ($('.form_field-cms input').length) {
         if ($('.form_field-cms input').val().length >= 1) {
           $('.form_field-cms input').closest('.form_field-cms').addClass('with-input');
@@ -195,8 +252,8 @@
         }
       }
 
-      $(document).ready(function() {
-        $('.form_field-cms input').keyup(function(e) {
+      $(document).ready(function () {
+        $('.form_field-cms input').keyup(function (e) {
           if ($(this).val().length >= 1) {
             $(this).closest('.form_field-cms').addClass('with-input');
           } else {

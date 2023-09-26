@@ -18,7 +18,7 @@
         // Updates results on every keypress.
         updateOnKeypress: true,
         // String for feedback if no results are found.
-        noResults: noResultsString
+        noResults: noResultsString,
       });
     }
   };
@@ -28,7 +28,8 @@
     let timeout;
 
     return function () {
-      const context = this, args = arguments;
+      const context = this,
+        args = arguments;
       let later = function () {
         timeout = null;
         if (!immediate) func.apply(context, args);
@@ -37,8 +38,8 @@
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
       if (callNow) {
-        func.apply(context, args)
-      };
+        func.apply(context, args);
+      }
     };
   };
 
@@ -48,17 +49,17 @@
         $('.js-popover').removeClass('expanded');
         $('.js-search-close-btn').trigger('click');
         $('.js-image-settings-popover').toggleClass('active');
-      };
+      }
     });
   };
 
   const init = () => {
     bindSideClicks();
-  }
+  };
 
   window.site = $.extend(window.site || {}, {
     bindSiteSearch: bindSiteSearch,
-  })
+  });
 
   init();
 })(jQuery);

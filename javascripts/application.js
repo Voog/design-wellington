@@ -563,7 +563,7 @@
           // Updates results on every keypress.
           updateOnKeypress: true,
           // String for feedback if no results are found.
-          noResults: noResultsString
+          noResults: noResultsString,
         });
       }
     };
@@ -574,7 +574,8 @@
           $('.js-popover').removeClass('expanded');
           $('.js-search-close-btn').trigger('click');
           $('.js-image-settings-popover').toggleClass('active');
-        }    });
+        }
+      });
     };
 
     const init = () => {
