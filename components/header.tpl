@@ -4,8 +4,8 @@
   <div class="header-right">
     {% include "menu-lang" %}
 
-    {% if site.search.enabled %}
+    {%- if site.search.enabled %}
       {% include "search" %}
-    {% endif %}
+    {%- endif %}
   </div>
 </div>

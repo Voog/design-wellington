@@ -10,7 +10,7 @@
     <div class="body-bg-image js-background-image"></div>
     <div class="body-bg-color js-background-color"></div>
 
-    {% if editmode %}
+    {%- if editmode %}
       <button
         class="voog-bg-picker-btn body-bg-picker bg-picker"
         data-bg_key="{{ body_bg_key }}"
@@ -23,7 +23,7 @@
         data-bg-color="{{ body_bg_color }}"
         data-bg-image-sizes="{{ body_bg_image_sizes_str | escape }}"
       ></button>
-    {% endif %}
+    {% endif -%}
 
     <div class="container-wrap">
       {% include "header" %}
