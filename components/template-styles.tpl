@@ -5,7 +5,7 @@
   }
 
   .body-bg-image {
-    background-image: url("{{ body_bg_image }}");
+    {% if body_bg_image != blank %}background-image: url("{{ body_bg_image }}");{% endif %}
     background-position: center;
     background-size: cover;
   }
