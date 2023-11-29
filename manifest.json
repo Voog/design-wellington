@@ -92,9 +92,9 @@
     {
       "content_type": "page",
       "component": false,
-      "file": "layouts/front_page.tpl",
+      "file": "layouts/common_page.tpl",
       "layout_name": "page_default",
-      "title": "Front page"
+      "title": "Common page"
     }
   ],
   "assets": [
